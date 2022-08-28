@@ -7,10 +7,6 @@ import User from '../models/User';
 
 dotenv.config();
 
-export interface UserResponse {
-  token: string
-}
-
 export default class LoginService {
   public user;
   constructor() {
@@ -30,8 +26,6 @@ export default class LoginService {
 
     const token = jwt.sign({ email, password }, process.env.JWT_SECRET || 'jwt_secret');
 
-    return {
-      token,
-    };
+    return { token };
   };
 }
