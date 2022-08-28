@@ -1,7 +1,6 @@
 import * as express from 'express';
-import 'dotenv/config';
-
-const PORT = process.env.APP_PORT;
+import bodyParser = require('body-parser');
+import loginRoute from './database/routers/loginRouter';
 
 class App {
   public app: express.Express;
@@ -23,8 +22,10 @@ class App {
       next();
     };
 
+    this.app.use(bodyParser.json());
     this.app.use(express.json());
     this.app.use(accessControl);
+    this.app.use(loginRoute);
   }
 
   public start(PORT: string | number):void {
