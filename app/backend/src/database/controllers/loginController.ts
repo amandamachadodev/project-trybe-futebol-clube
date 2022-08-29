@@ -20,4 +20,14 @@ export default class LoginController {
 
     return res.status(200).json(user);
   };
+
+  public validateToken = async (req: Request, res: Response) => {
+    const { authorization } = req.headers;
+    const result = await this.loginService.validateToken(authorization as string);
+
+    if (!result) {
+      return res.status(404).json({ message: 'Invalid token' });
+    }
+    return res.status(200).json({ role: result.role });
+  };
 }
