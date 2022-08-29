@@ -1,6 +1,7 @@
 import * as express from 'express';
 import bodyParser = require('body-parser');
 import loginRoute from './database/routers/loginRouter';
+import teamsRoute from './database/routers/teamsRoute';
 
 class App {
   public app: express.Express;
@@ -26,6 +27,7 @@ class App {
     this.app.use(express.json());
     this.app.use(accessControl);
     this.app.use(loginRoute);
+    this.app.use(teamsRoute);
   }
 
   public start(PORT: string | number):void {
