@@ -13,4 +13,13 @@ export default class TeamService {
     const result = await this.teams.findAll();
     return result;
   };
+
+  public findId = async (id: string) => {
+    const result = await this.teams.findByPk(id);
+    console.log(result);
+    if (!result) {
+      return false;
+    }
+    return result;
+  };
 }
