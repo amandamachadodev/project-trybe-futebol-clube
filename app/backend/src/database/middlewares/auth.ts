@@ -7,8 +7,7 @@ dotenv.config();
 const validateToken = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { authorization } = req.headers;
-    const user = jwt.verify(authorization as string, process.env.JWT_SECRET || 'jwt_secret');
-    req.body.tokenData = user;
+    jwt.verify(authorization as string, process.env.JWT_SECRET || 'jwt_secret');
     return next();
   } catch (err) {
     return res.status(404).json({ messagem: 'Token not found' });
