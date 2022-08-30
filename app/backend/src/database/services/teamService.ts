@@ -1,7 +1,4 @@
-import * as dotenv from 'dotenv';
 import Teams from '../models/Teams';
-
-dotenv.config();
 
 export default class TeamService {
   public teams;
