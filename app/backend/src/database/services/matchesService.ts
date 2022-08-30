@@ -15,9 +15,14 @@ export default class MatchesService {
     return result;
   };
 
-  public saveMatches = async (matches: IMatches) => {
+  public saveMatches = async (matches: IMatches): Promise<Matches> => {
     const createdMatches = await this.matches.create(matches);
-    console.log(createdMatches);
     return createdMatches;
+  };
+
+  public updateMatches = async (id: string) => {
+    const [matchesUpdate] = await this.matches.update({ inProgress: false }, {
+      where: { id } });
+    return matchesUpdate;
   };
 }
