@@ -31,4 +31,10 @@ export default class MatchesService {
       where: { id } });
     return matchesUpdate;
   };
+
+  public updateGoals = async (id: string, homeTeamGoals: string, awayTeamGoals: string) => {
+    const [updateGoals] = await this.matches.update({ homeTeamGoals, awayTeamGoals }, {
+      where: { id } });
+    return updateGoals;
+  };
 }

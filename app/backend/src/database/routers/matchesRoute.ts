@@ -12,4 +12,6 @@ router.post('/matches', validateToken, matchesController.saveMatches);
 
 router.patch('/matches/:id/finish', matchesController.updateMatches);
 
+router.patch('/matches/:id', matchesController.updateGoals);
+
 export default router;
