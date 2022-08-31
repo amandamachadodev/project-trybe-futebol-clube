@@ -10,7 +10,7 @@ const validateToken = async (req: Request, res: Response, next: NextFunction) =>
     jwt.verify(authorization as string, process.env.JWT_SECRET || 'jwt_secret');
     return next();
   } catch (err) {
-    return res.status(404).json({ messagem: 'Token not found' });
+    return res.status(401).json({ message: 'Token must be a valid token' });
   }
 };
 
