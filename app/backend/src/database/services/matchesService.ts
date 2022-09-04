@@ -18,7 +18,7 @@ export default class MatchesService {
   public saveMatches = async (matches: IMatches): Promise<boolean | Matches> => {
     const team = await this.matches.findByPk(matches.awayTeam)
       && await this.matches.findByPk(matches.homeTeam);
-    console.log(team);
+
     if (!team) {
       return false;
     }

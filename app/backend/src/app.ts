@@ -3,6 +3,7 @@ import bodyParser = require('body-parser');
 import loginRoute from './database/routers/loginRoute';
 import teamsRoute from './database/routers/teamsRoute';
 import matchesRoute from './database/routers/matchesRoute';
+import leaderboardRoute from './database/routers/leaderboardRoute';
 
 class App {
   public app: express.Express;
@@ -30,6 +31,7 @@ class App {
     this.app.use(loginRoute);
     this.app.use(teamsRoute);
     this.app.use(matchesRoute);
+    this.app.use(leaderboardRoute);
   }
 
   public start(PORT: string | number):void {
