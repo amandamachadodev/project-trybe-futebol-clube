@@ -3,11 +3,27 @@ export interface IUser {
   password: string
 }
 
+export interface IToken {
+  token: string | boolean
+}
+
+export interface IValid {
+  role: string
+}
+
 export interface IMatches {
+  id: number,
   homeTeam: number,
-  awayTeam: number,
   homeTeamGoals: number,
-  awayTeamGoals: number
+  awayTeam: number,
+  awayTeamGoals: number,
+  inProgress: boolean,
+  teamHome: {
+    teamName: string
+  },
+  teamAway: {
+    teamName: string
+  }
 }
 
 export interface Ileaderboard {
@@ -21,4 +37,9 @@ export interface Ileaderboard {
   goalsOwn: number,
   goalsBalance: number,
   efficiency: string,
+}
+
+export interface ITeams {
+  id: number,
+  teamName: string
 }

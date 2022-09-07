@@ -9,13 +9,13 @@ export default class LeaderboardController {
   }
 
   public listHome = async (_req: Request, res: Response) => {
-    const result = await this.leaderboardService.listHome();
+    const result = await LeaderboardService.listHome();
     // console.log(result);
     return res.status(200).json(result);
   };
 
   public listAway = async (_req: Request, res: Response) => {
-    const result = await this.leaderboardService.listAway();
+    const result = await LeaderboardService.listAway();
     // console.log(result);
     return res.status(200).json(result);
   };

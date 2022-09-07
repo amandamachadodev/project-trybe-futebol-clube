@@ -38,7 +38,7 @@ export interface ITeams {
   awayMatches: any;
   id: number,
   teamName: string,
-  homeMatches?: [
+  homeMatches: [
     {
       id: number,
       homeTeam: number,
@@ -65,15 +65,7 @@ export interface IMatche {
 }
 
 export default class leaderboard {
-  public teams;
-  public matches;
-
-  constructor() {
-    this.matches = Matches;
-    this.teams = Teams;
-  }
-
-  amountPoints = (homeMatches: IMatche[], where: string) => {
+  static amountPoints = (homeMatches: IMatche[], where: string) => {
     let points = 0;
     const teams = where === 'home' ? 'homeTeamGoals' : 'awayTeamGoals';
     const team = where === 'home' ? 'awayTeamGoals' : 'homeTeamGoals';
@@ -87,20 +79,19 @@ export default class leaderboard {
     return points;
   };
 
-  amountVictories = (homeMatches: IMatche, where: string) => {
+  static amountVictories = (homeMatches: IMatche, where: string) => {
     let victories = 0;
     const teams = where === 'home' ? 'homeTeamGoals' : 'awayTeamGoals';
     const team = where === 'home' ? 'awayTeamGoals' : 'homeTeamGoals';
     homeMatches.forEach((element: any) => {
       if (element[teams] > element[team]) {
         victories += 1;
-        console.log(element[teams] > element[team]);
       }
     });
     return victories;
   };
 
-  amountDraws = (homeMatches: IMatche, where: string) => {
+  static amountDraws = (homeMatches: IMatche, where: string) => {
     let draws = 0;
     const teams = where === 'home' ? 'homeTeamGoals' : 'awayTeamGoals';
     const team = where === 'home' ? 'awayTeamGoals' : 'homeTeamGoals';
@@ -112,7 +103,7 @@ export default class leaderboard {
     return draws;
   };
 
-  amountLosses = (homeMatches: IMatche, where: string) => {
+  static amountLosses = (homeMatches: IMatche, where: string) => {
     let losses = 0;
     const teams = where === 'home' ? 'homeTeamGoals' : 'awayTeamGoals';
     const team = where === 'home' ? 'awayTeamGoals' : 'homeTeamGoals';
@@ -124,7 +115,7 @@ export default class leaderboard {
     return losses;
   };
 
-  amountGoalsFavor = (homeMatches: IMatche, where: string) => {
+  static amountGoalsFavor = (homeMatches: IMatche, where: string) => {
     let goals = 0;
     const teams = where === 'home' ? 'homeTeamGoals' : 'awayTeamGoals';
     homeMatches.forEach((element: any) => {
@@ -133,7 +124,7 @@ export default class leaderboard {
     return goals;
   };
 
-  amountGoalsOwn = (homeMatches: IMatche, where: string) => {
+  static amountGoalsOwn = (homeMatches: IMatche, where: string) => {
     let goals = 0;
     const team = where === 'home' ? 'awayTeamGoals' : 'homeTeamGoals';
     homeMatches.forEach((element: any) => {
@@ -142,14 +133,14 @@ export default class leaderboard {
     return goals;
   };
 
-  order = (teamsHome: Ileaderboard[]) =>
+  static order = (teamsHome: Ileaderboard[]) =>
     teamsHome.sort((c, d) => d.totalPoints - c.totalPoints
     || d.totalVictories - c.totalVictories
     || d.goalsBalance - c.goalsBalance
     || d.goalsFavor - c.goalsFavor
     || c.goalsOwn - d.goalsOwn);
 
-  leaderboard = (teams: Teams[], where: string) => {
+  static leaderboard = (teams: Teams[], where: string) => {
     const result = teams.map((element: any) => {
       const team = where === 'home' ? element.homeMatches : element.awayMatches;
       return ({
@@ -169,16 +160,16 @@ export default class leaderboard {
     return this.order(result);
   };
 
-  public listHome = async () => {
-    const result = await this.teams.findAll({ include: [{ model: Matches,
+  public static listHome = async () => {
+    const result = await Teams.findAll({ include: [{ model: Matches,
       as: 'homeMatches',
       where: { inProgress: false } }] });
 
     return this.leaderboard(result, 'home');
   };
 
-  public listAway = async () => {
-    const result = await this.teams.findAll({ include: [{ model: Matches,
+  public static listAway = async () => {
+    const result = await Teams.findAll({ include: [{ model: Matches,
       as: 'awayMatches',
       where: { inProgress: false } }] });
 

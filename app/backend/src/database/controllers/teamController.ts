@@ -9,7 +9,7 @@ export default class TeamController {
   }
 
   public list = async (_req: Request, res: Response) => {
-    const teams = await this.teamService.list();
+    const teams = await TeamService.list();
     if (!teams) {
       return res.status(404).json({ message: 'Not found' });
     }
@@ -18,7 +18,7 @@ export default class TeamController {
 
   public findId = async (req: Request, res: Response) => {
     const { id } = req.params;
-    const team = await this.teamService.findId(id);
+    const team = await TeamService.findId(id);
     if (!team) {
       return res.status(404).json({ message: 'Team not found' });
     }

@@ -1,20 +1,15 @@
 import * as dotenv from 'dotenv';
 import * as jwt from 'jsonwebtoken';
 import * as bcrypt from 'bcryptjs';
-import { IUser } from '../interfaces/index';
+import { IUser, IToken } from '../interfaces/index';
 import User from '../models/User';
 
 dotenv.config();
 
 export default class LoginService {
-  public user;
-  constructor() {
-    this.user = User;
-  }
-
-  public login = async (body: IUser) => {
+  public static login = async (body: IUser): Promise<false | IToken> => {
     const { email, password } = body;
-    const result = await this.user.findOne({
+    const result = await User.findOne({
       attributes: { exclude: ['id', 'username', 'role'] },
       where: { email },
     });
@@ -28,13 +23,13 @@ export default class LoginService {
     return { token };
   };
 
-  public validateToken = async (token:string) => {
+  public static validateToken = async (token:string) => {
     const user = jwt.verify(token, process.env.JWT_SECRET || 'jwt_secret');
     const { email } = user as jwt.JwtPayload;
     if (!user) {
       return false;
     }
-    const validate = await this.user.findOne({
+    const validate = await User.findOne({
       attributes: { exclude: ['id', 'username', 'password'] },
       where: { email },
     });
