@@ -3,7 +3,12 @@ import * as chai from 'chai';
 import chaiHttp = require('chai-http');
 import * as sinon from 'sinon';
 import { app } from '../app';
+import { IToken } from '../database/interfaces';
 import Matches from '../database/models/Matches';
+import User from '../database/models/User';
+import LoginService from '../database/services/loginService';
+import MatchesService from '../database/services/matchesService';
+import { LoginMock, validateMock } from './login.test';
 const { expect } = chai;
 
 chai.use(chaiHttp);
@@ -68,6 +73,52 @@ describe('Matches', () => {
     })
   })
 
+  describe('list error', () => {
+    beforeEach(() => {
+      sinon.stub(MatchesService, 'list').resolves();
+    })
+    afterEach(() => {
+      sinon.restore();
+    })
+
+    it('return status 404', async () => {
+      const response = await chai.request(app)
+        .get('/matches');
+
+      expect(response.status).to.equal(404);
+    })
+
+    it('should error return matches', async () => {
+      const response = await chai.request(app)
+        .get('/matches')
+
+      expect(response.body).to.deep.equal({ message: 'Not found' });
+    })
+  })
+
+  describe('list error', () => {
+    beforeEach(() => {
+      sinon.stub(MatchesService, 'list').resolves();
+    })
+    afterEach(() => {
+      sinon.restore();
+    })
+
+    it('return status 404', async () => {
+      const response = await chai.request(app)
+        .get('/matches');
+
+      expect(response.status).to.equal(404);
+    })
+
+    it('should error return matches', async () => {
+      const response = await chai.request(app)
+        .get('/matches')
+
+      expect(response.body).to.deep.equal({ message: 'Not found' });
+    })
+  })
+
   describe('Save matches', () => {
     beforeEach(() => {
       sinon.stub(Matches, "create").resolves();
@@ -91,6 +142,29 @@ describe('Matches', () => {
         .send(createMatchesMock);
 
       expect(response.body).to.deep.equal({message: 'Token must be a valid token'});
+    })
+  })
+
+  describe('Save matches invalid token', () => {
+    beforeEach(() => {
+      sinon.stub(MatchesService, 'saveMatches').resolves(matchesMock as unknown as Matches);
+    })
+    afterEach(() => {
+      sinon.restore();
+    })
+
+    it('return status 404', async () => {
+      const response = await chai.request(app)
+        .post('/matches').send({id: 1});
+
+      expect(response.status).to.equal(401);
+    })
+
+    it('should error save matches', async () => {
+      const response = await chai.request(app)
+        .post('/matches').send({id: 1})
+
+      expect(response.body).to.deep.equal({ message: 'Token must be a valid token' });
     })
   })
 

@@ -64,4 +64,29 @@ describe('Teams', () => {
       expect(response.body).to.deep.equal(teamsMock);
     })
   })
+  describe('Find By Pk Error', () => {
+    beforeEach(() => {
+      sinon.stub(Teams, "findByPk").resolves();
+    })
+
+    afterEach(() => {
+      sinon.restore();
+    })
+
+    it('return status 404', async () => {
+      const response = await chai.request(app)
+        .get('/teams/:id')
+        .send();;
+
+      expect(response.status).to.equal(404);
+    })
+
+    it('should return team id', async () => {
+      const response = await chai.request(app)
+        .get('/teams/:id')
+        .send();
+        
+      expect(response.body).to.deep.equal({ message: 'Team not found' });
+    })
+  })
 })

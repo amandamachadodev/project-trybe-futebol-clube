@@ -44,6 +44,13 @@ describe('LeaderBoard', () => {
 
       expect(response.body).to.deep.equal([leaderboardMock]);
     })
+
+    it('should return array', async () => {
+      const response = await chai.request(app)
+        .get('/leaderboard/home')
+
+      expect(typeof response.body).to.equal('object');
+    })
   })
 
   describe('listAway', () => {
@@ -66,6 +73,43 @@ describe('LeaderBoard', () => {
         .get('/leaderboard/away')
 
       expect(response.body).to.deep.equal([leaderboardMock]);
+    })
+
+    it('should return array', async () => {
+      const response = await chai.request(app)
+        .get('/leaderboard/away')
+
+      expect(typeof response.body).to.equal('object');
+    })
+  })
+
+  describe('function order', () => {
+    beforeEach(() => {
+      sinon.stub(leaderboard, 'order').resolves(leaderboardMock);
+    })
+    afterEach(() => {
+      sinon.restore();
+    })
+
+    it('return status 200', async () => {
+      const response = await chai.request(app)
+        .get('/leaderboard/away');
+
+      expect(response.status).to.equal(200);
+    })
+
+    it('should return leaderboard home', async () => {
+      const response = await chai.request(app)
+        .get('/leaderboard/away')
+
+      expect(response.body).to.deep.equal(leaderboardMock);
+    })
+
+    it('should return array', async () => {
+      const response = await chai.request(app)
+        .get('/leaderboard/away')
+
+      expect(typeof response.body).to.equal('object');
     })
   })
 })

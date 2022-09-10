@@ -16,7 +16,7 @@ export const userMock: IUser = {
   password: 'any-secret'
 }
 
-const validateMock: IValid = {
+export const validateMock: IValid = {
   role: 'any-role'
 }
 
@@ -95,6 +95,26 @@ describe('Login', () => {
         .send(LoginMock);
 
       expect(response.body).to.deep.equal({ message: 'Invalid token' });
+    })
+
+    it('return status 200 quando token for valido', async () => {
+      sinon.stub(LoginService, 'login').resolves(LoginMock as IToken);
+      sinon.stub(LoginService, 'validateToken').resolves(validateMock as User);
+
+      const response = await chai.request(app)
+        .get('/login/validate').send(LoginMock);
+
+      expect(response.status).to.equal(200);
+    })
+
+    it('return role quando token for valido', async () => {
+      sinon.stub(LoginService, 'login').resolves(LoginMock as IToken);
+      sinon.stub(LoginService, 'validateToken').resolves(validateMock as User);
+
+      const response = await chai.request(app)
+        .get('/login/validate').send(LoginMock);
+
+      expect(response.body).to.deep.equal(validateMock);
     })
   })
 })

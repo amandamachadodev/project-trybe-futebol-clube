@@ -2,38 +2,6 @@ import { Ileaderboard } from '../interfaces';
 import Matches from '../models/Matches';
 import Teams from '../models/Teams';
 
-// "id": 16,
-//     "teamName": "São Paulo",
-//     "homeMatches": [
-//       {
-//         "id": 1,
-//         "homeTeam": 16,
-//         "homeTeamGoals": 1,
-//         "awayTeam": 8,
-//         "awayTeamGoals": 1,
-//         "inProgress": 0
-//       },
-//       {
-//         "id": 28,
-//         "homeTeam": 16,
-//         "homeTeamGoals": 3,
-//         "awayTeam": 7,
-//         "awayTeamGoals": 0,
-//         "inProgress": 0
-//       }
-
-// {
-//   "name": "Palmeiras",
-//   "totalPoints": 13,
-//   "totalGames": 5,
-//   "totalVictories": 4,
-//   "totalDraws": 1,
-//   "totalLosses": 0,
-//   "goalsFavor": 17,
-//   "goalsOwn": 5,
-//   "goalsBalance": 12,
-//   "efficiency": 86.67
-// }
 export interface ITeams {
   awayMatches: any;
   id: number,
@@ -174,5 +142,31 @@ export default class leaderboard {
       where: { inProgress: false } }] });
 
     return this.leaderboard(result, 'away');
+  };
+
+  public static listAll = async () => {
+    const home = await this.listHome();
+    const away = await this.listAway();
+    return home.map((homeT) => away.reduce((acc, awayT) => {
+      if (homeT.name === awayT.name) {
+        acc.name = homeT.name;
+        acc.totalPoints = awayT.totalPoints + homeT.totalPoints;
+        acc.totalGames = awayT.totalGames + homeT.totalGames;
+        acc.totalVictories = awayT.totalVictories + homeT.totalVictories;
+        acc.totalDraws = awayT.totalDraws + homeT.totalDraws;
+        acc.totalLosses = awayT.totalLosses + homeT.totalLosses;
+        acc.goalsFavor = awayT.goalsFavor + homeT.goalsFavor;
+        acc.goalsOwn = awayT.goalsOwn + homeT.goalsOwn;
+        acc.goalsBalance = acc.goalsFavor - acc.goalsOwn;
+        acc.efficiency = ((acc.totalPoints
+        / (acc.totalGames * 3)) * 100).toFixed(2);
+      }
+      return acc;
+    }, {} as Ileaderboard));
+  };
+
+  static orderAll = async () => {
+    const allTeams = await this.listAll();
+    return this.order(allTeams);
   };
 }

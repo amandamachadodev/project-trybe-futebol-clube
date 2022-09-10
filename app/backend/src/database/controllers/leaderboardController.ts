@@ -19,4 +19,10 @@ export default class LeaderboardController {
     // console.log(result);
     return res.status(200).json(result);
   };
+
+  public listAll = async (_req: Request, res: Response) => {
+    const result = await LeaderboardService.orderAll();
+    // console.log(result);
+    return res.status(200).json(result);
+  };
 }
