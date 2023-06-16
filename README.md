@@ -1,16 +1,22 @@
-# 🚧 README em construção 🚧
+## Projeto Trybe Futebol Clube
+O produto final deste projeto é um site informativo sobre partidas de futebol.
 
-<!-- Olá, Tryber!
 
-Esse é apenas um arquivo inicial para o README do seu projeto.
+##### Desafio proposto
+O desafio do projeto era desenvolver um banco de dados do zero, filtrando os dados para disbolibiliza-los em uma aplicação
+front-end ja disponibilizada pela Trybe. Realização de teste de integração.
 
-É essencial que você preencha esse documento por conta própria, ok?
+##### Setup
+Para inicar o projeto utilizamos o docker com três containers (front-end, back-end e banco de dados mysql).
 
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
+##### Tecnologias utilizadas
+Typescript, Node.JS, Express.JS
 
-⚠️ IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
-
--->
+####### Banco de dados:
+Mysql, Sequelize.
+####### Front-end:
+Foi disponibilizado pela Trybe.
+####### Testes:
+Chai e Sinon
+####### Docker:
+Docker compose
